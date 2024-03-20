@@ -21,12 +21,7 @@ export class UserController {
     return ['Get  user']; // Send t
   }
   @Post('/user')
-  saveUser(@Body() userDto: CreateUserDto,  req: Request, res: Response) {
-   
-    console.log(req.headers); // Log Content-Type header
-    console.log(req.body); // Log request body
-    console.log(userDto.first_name);
-
-    return {firstname: userDto.first_name}; 
+  saveUser(@Body() userDto: CreateUserDto) {
+    return userDto; 
   }
 }
