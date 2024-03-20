@@ -1,8 +1,10 @@
 // controllers/userController.ts
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { Body, Controller, Get, Post } from '../core';
 import { RoleBasedAuth } from '../middleware/authMiddleware';
-import {CreateUserDto}  from '../utils';
+import { CreateUserDto } from '../utils';
+
+
 
 
 
@@ -10,8 +12,8 @@ import {CreateUserDto}  from '../utils';
 export class UserController {
 
   @Get('/users') // Decorate method with @Get() and specify route path
-  // @RoleBasedAuth(['admin', 'manager'])
-  getUsers() {
+ 
+  getUsers(@RoleBasedAuth(['admi', 'ager']) req: Request, res: Response) {
     // Controller logic to get users
     return ['Get all users']; // Send t
   }
@@ -22,6 +24,6 @@ export class UserController {
   }
   @Post('/user')
   saveUser(@Body() userDto: CreateUserDto) {
-    return userDto; 
+    return userDto;
   }
 }
