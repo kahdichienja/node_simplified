@@ -1,12 +1,12 @@
 // controllers/userController.ts
 import { Controller, Get } from '../core';
-import { Request, Response } from 'express';
 
-@Controller() // Decorate UserController with @Controller() and specify base route path
-export default class UserController {
-  @Get('/users') // Decorate method with @Get() and specify route path
-  getUsers(req: Request, res: Response) {
-    // Controller logic to get users
-    res.send('Get all users'); // Placeholder response
-  }
+@Controller('/v1/api') // Decorate UserController with @Controller() and specify base route path
+export class UserController {
+
+    @Get('/users') // Decorate method with @Get() and specify route path
+    getUsers() {
+        // Controller logic to get users
+        return ['Get all users']; // Placeholder response
+    }
 }
