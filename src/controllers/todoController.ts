@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Get } from '../core';
+import { Controller, Delete, Get } from '../core';
 
 @Controller() // Decorate UserController with @Controller() and specify base route path
 export default class TodoController {
@@ -9,8 +9,12 @@ export default class TodoController {
 
     return ['Get all todos']; // Placeholder response
   }
+  @Delete('/todos/delete') 
+  delete() {
+    return ['delete all todos']; // Placeholder response
+  }
 
-  @Get('/users/:userId') // Decorate method with @Get() and specify route path with parameter
+  @Get('/todo/:userId') // Decorate method with @Get() and specify route path with parameter
   getUserById(req: Request, res: Response) {
       const userId = req.params.userId; // Access request parameter
       // Controller logic to get user by ID
