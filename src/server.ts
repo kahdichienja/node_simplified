@@ -8,7 +8,9 @@ const port = 3000;
 
 const bootstrap = express();
 
-bootstrap.use(express.json());
+bootstrap.use(express.json({
+  limit: '100kb'
+}));
 bootstrap.use(express.urlencoded({ extended: true }));
 
 // Register controllers decorated with @Controller() at application startup

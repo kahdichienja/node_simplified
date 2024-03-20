@@ -10,6 +10,38 @@ export function Controller(baseRoute: string = '') {
   };
 }
 
+// function createHttpDecorator(method: HttpMethod) {
+//   return function (path: string) {
+//     return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
+//       const originalMethod = descriptor.value;
+
+//       descriptor.value = async function (req: Request, res: Response) {
+//         console.log(req.body);
+        
+//         try {
+//           const result = await originalMethod.call(this, req, res);
+
+//           if (res.headersSent) {
+//             return; // If headers already sent, do nothing
+//           }
+
+//           if (result === undefined) {
+//             res.status(204).end();
+//           } else {
+//             res.json(result);
+//           }
+//         } catch (error) {
+//           console.error(`Error in ${method} ${path}:`, error);
+//           res.status(500).send('Internal Server Error');
+//         }
+//       };
+
+//       Reflect.defineMetadata('path', path, target, propertyKey);
+//       Reflect.defineMetadata('method', method, target, propertyKey);
+//     };
+//   };
+// }
+
 function createHttpDecorator(method: HttpMethod) {
   return function (path: string) {
     return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
@@ -17,16 +49,19 @@ function createHttpDecorator(method: HttpMethod) {
 
       descriptor.value = async function (req: Request, res: Response) {
         try {
-          const result = await originalMethod.call(this, req, res);
+          // Ensure the request body is properly parsed
+          const body = req.body;
 
-          if (res.headersSent) {
-            return; // If headers already sent, do nothing
-          }
+          // Call the original method with the request body
+          const result = await originalMethod.call(this, body, req, res);
 
-          if (result === undefined) {
-            res.status(204).end();
-          } else {
-            res.json(result);
+
+          if (!res.headersSent) {
+            if (result === undefined) {
+              res.status(204).end();
+            } else {
+              res.json(result);
+            }
           }
         } catch (error) {
           console.error(`Error in ${method} ${path}:`, error);
