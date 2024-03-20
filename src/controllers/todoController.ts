@@ -1,6 +1,6 @@
 // controllers/userController.ts
-import { Controller, Get } from '../decorators';
 import { Request, Response } from 'express';
+import { Controller, Get } from '../core';
 
 @Controller() // Decorate UserController with @Controller() and specify base route path
 export default class TodoController {

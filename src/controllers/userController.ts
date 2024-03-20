@@ -1,5 +1,5 @@
 // controllers/userController.ts
-import { Controller, Get } from '../decorators';
+import { Controller, Get } from '../core';
 import { Request, Response } from 'express';
 
 @Controller() // Decorate UserController with @Controller() and specify base route path
