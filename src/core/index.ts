@@ -10,7 +10,6 @@ export function Controller(baseRoute: string = '') {
   };
 }
 
-
 function createHttpDecorator(method: HttpMethod) {
   return function (path: string) {
     return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
@@ -19,12 +18,15 @@ function createHttpDecorator(method: HttpMethod) {
       descriptor.value = async function (req: Request, res: Response) {
         try {
           const result = await originalMethod.call(this, req, res);
-          if (!res.headersSent) {
-            if (result === undefined) {
-              res.status(204).end();
-            } else {
-              res.json(result);
-            }
+
+          if (res.headersSent) {
+            return; // If headers already sent, do nothing
+          }
+
+          if (result === undefined) {
+            res.status(204).end();
+          } else {
+            res.json(result);
           }
         } catch (error) {
           console.error(`Error in ${method} ${path}:`, error);
@@ -38,8 +40,21 @@ function createHttpDecorator(method: HttpMethod) {
   };
 }
 
+
 export const Get = createHttpDecorator('GET');
 export const Post = createHttpDecorator('POST');
 export const Put = createHttpDecorator('PUT');
 export const Delete = createHttpDecorator('DELETE');
 export const Patch = createHttpDecorator('PATCH');
+
+export function Body() {
+  return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
+    const originalMethod = target[propertyKey];
+    target[propertyKey] = function (...args: any[]) {
+      const req: Request = args[0];
+      const body = req.body;
+      args[parameterIndex] = body;
+      return originalMethod.apply(this, args);
+    };
+  };
+}
