@@ -10,10 +10,10 @@ import {CreateUserDto}  from '../utils';
 export class UserController {
 
   @Get('/users') // Decorate method with @Get() and specify route path
-  @RoleBasedAuth(['admin', 'manager'])
-  getUsers(req: Request, res: Response) {
+  // @RoleBasedAuth(['admin', 'manager'])
+  getUsers() {
     // Controller logic to get users
-    return res.send(['Get all users']); // Send t
+    return ['Get all users']; // Send t
   }
   @Get('/user') // Decorate method with @Get() and specify route path
   getUser() {
