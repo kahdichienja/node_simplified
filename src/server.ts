@@ -4,7 +4,6 @@ import { RegisterControllers } from './middleware';
 import UserController from './controllers/userController';
 import TodoController from './controllers/todoController';
 
-const app = express();
 const port = 3000;
 
 // Register controllers decorated with @Controller() at application startup
