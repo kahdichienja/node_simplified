@@ -27,7 +27,7 @@ export function RegisterControllers(controllerClasses: any[]) {
         if (path && method) {
           target.app[method.toLowerCase()](path, (req: Request, res: Response, next: NextFunction) => {
             controllerInstance[methodName](req, res, next);
-            
+
             console.info(`[${getCurrentDateTimeWithYear()} Method->${method}->${path}]`);
           });
           console.info(`[Registered route: ${method} ${path}]`);

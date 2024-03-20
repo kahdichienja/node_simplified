@@ -11,8 +11,8 @@ const bootstrap = express();
 // Register controllers decorated with @Controller() at application startup
 @RegisterControllers([UserController, TodoController])
 class App {
-    static app = bootstrap;
+  static app = bootstrap;
 }
 App.app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
