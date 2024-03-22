@@ -93,3 +93,20 @@ export function Body() {
     };
   };
 }
+
+export function Param(){
+  return function(target: any, propertyKey: string| symbol, parameterIndex: number){
+      const originalMethod = target[propertyKey];
+
+      target[propertyKey] = function (req: Request, res: Response, ...args: any[]){
+        
+          const param = req.params;
+
+          
+
+          args[parameterIndex] = param
+
+          return originalMethod.apply(this, args);
+      }
+  }
+}

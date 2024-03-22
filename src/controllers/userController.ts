@@ -1,6 +1,6 @@
 // controllers/userController.ts
 import { NextFunction, Request, Response } from 'express'
-import { Body, Controller, Get, Post } from '../core';
+import { Body, Controller, Get, Param, Post } from '../core';
 import { RoleBasedAuth } from '../middleware/authMiddleware';
 import { CreateUserDto } from '../utils';
 
@@ -22,8 +22,13 @@ export class UserController {
     // Controller logic to get users
     return ['Get  user']; // Send t
   }
-  @Post('/user')
-  saveUser(@Body() userDto: CreateUserDto) {
+  @Post('/user/:id')
+  saveUser(@Body() userDto: CreateUserDto, @Param() param: any) {
+
+    console.log({
+      param: param.params,
+    });
+    
     return userDto;
   }
 }
