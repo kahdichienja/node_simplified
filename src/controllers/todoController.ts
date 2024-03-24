@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Controller, Delete, Get } from '../core';
+import { Delete, Get, ClassController } from '../core';
 
-@Controller()
+@ClassController()
 export default class TodoController {
 
   @Get('/todos')

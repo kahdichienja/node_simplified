@@ -1,15 +1,20 @@
 // controllers/userController.ts
-import { NextFunction, Request, Response } from 'express'
-import { Body, Controller, Get, Param, Post } from '../core';
+import { Request, Response } from 'express'
+import { RequestBody, ClassController, Get,RequestParam, Post } from '../core';
 import { RoleBasedAuth } from '../middleware/authMiddleware';
 import { CreateUserDto } from '../utils';
+import { UserService } from '../service/userService';
 
 
 
 
 
-@Controller() // Decorate UserController with @Controller() and specify base route path
+@ClassController() // Decorate UserController with @Controller() and specify base route path
 export class UserController {
+
+  constructor(private readonly authService: UserService){
+    this.authService = new UserService
+  }
 
   @Get('/users') // Decorate method with @Get() and specify route path
  
@@ -23,12 +28,12 @@ export class UserController {
     return ['Get  user']; // Send t
   }
   @Post('/user/:id')
-  saveUser(@Body() userDto: CreateUserDto, @Param() param: any) {
+  saveUser(@RequestBody() userDto: CreateUserDto, @RequestParam() param: any) {
 
-    console.log({
-      param: param.params,
-    });
+    // console.log({
+    //   param: param.params,
+    // });
     
-    return userDto;
+    return this.authService.getUser(userDto);
   }
 }
