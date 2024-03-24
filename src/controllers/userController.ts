@@ -30,9 +30,7 @@ export class UserController {
   @Post('/user/:id')
   saveUser(@RequestBody() userDto: CreateUserDto, @RequestParam() param: any) {
 
-    // console.log({
-    //   param: param.params,
-    // });
+    console.log(userDto.email);
     
     return this.authService.getUser(userDto);
   }
