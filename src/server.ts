@@ -23,9 +23,7 @@ bootstrap.use(express.urlencoded({ extended: true }));
 
 
 @RegisterControllers([UserController, TodoController], bootstrap)
-class App  {
-  // Your existing code for App goes here
-}
+class App  {}
 
 
 httpServer.listen(port, () => {

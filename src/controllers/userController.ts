@@ -9,12 +9,12 @@ import { UserService } from '../service/userService';
 
 
 
-@ClassController() // Decorate UserController with @Controller() and specify base route path
+@ClassController('/api') // Decorate UserController with @Controller() and specify base route path
 export class UserController {
 
-  // constructor(private readonly authService: UserService){
-  //   this.authService = new UserService
-  // }
+  constructor(private readonly authService: UserService){
+    this.authService = new UserService
+  }
 
   @Get('/users') // Decorate method with @Get() and specify route path
   getUsers(@RoleBasedAuth(['admi', 'ager']) req: Request, res: Response) {
@@ -29,6 +29,6 @@ export class UserController {
   @Post('/user/:id')
   saveUser(@RequestBody() userDto: CreateUserDto, @RequestParam() param: any) {
     
-    // return this.authService.getUser(userDto);
+    return this.authService.getUser(userDto);
   }
 }
