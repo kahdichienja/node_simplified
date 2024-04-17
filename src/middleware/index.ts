@@ -1,6 +1,8 @@
 // middleware.ts
 import 'reflect-metadata';
-import { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction, Express } from 'express';
+import { HttpMethods } from '../core/httpInterceptDecorator';
+
 
 function getCurrentDateTimeWithYear(): string {
   const now = new Date();
@@ -14,7 +16,8 @@ function getCurrentDateTimeWithYear(): string {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-export function RegisterControllers(controllerClasses: any[]) {
+
+export function RegisterControllers(controllerClasses: any[], bootstrap: Express) {
   return function (target: any) {
     for (const controllerClass of controllerClasses) {
 
@@ -25,13 +28,17 @@ export function RegisterControllers(controllerClasses: any[]) {
         const method = Reflect.getMetadata('method', controllerInstance.constructor.prototype, methodName);
 
         if (path && method) {
-          target.app[method.toLowerCase()](path, (req: Request, res: Response, next: NextFunction) => {
+          console.log(`Registering route: ${method} ${path}`);
+
+          bootstrap[method.toLowerCase() as HttpMethods](path, (req: Request, res: Response, next: NextFunction) => {
             controllerInstance[methodName](req, res, next);
 
             console.info(`[${getCurrentDateTimeWithYear()} Method->${method}->${path}]`);
           });
           console.info(`[Registered route: ${method} ${path}]`);
 
+        } else {
+          console.error(`Invalid method or path: ${method}, ${path}`);
         }
       }
     }

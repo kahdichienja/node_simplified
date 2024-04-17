@@ -2,7 +2,9 @@
 import 'reflect-metadata';
 import { Request, Response } from 'express';
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'| 'HEAD' | 'OPTIONS';
+ 
+export type HttpMethods = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head' | 'options';
 
 export function Controller(baseRoute: string = '') {
   return function (target: Function) {
