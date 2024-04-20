@@ -3,13 +3,15 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { RegisterControllers } from './middleware';
-import { UserController } from './controllers/userController';
-import TodoController from './controllers/todoController';
+// import { UserController } from './controllers/userController';
+// import TodoController from './controllers/todoController';
 import { GameController } from './controllers/gameController';
 import initializeDb from './db';
-import { GameService } from './service/gameService';
-import { MatchSchedule } from './utils';
-import MongooseErrorParser from './utils/mongoosesaverr';
+// import { GameService } from './service/gameService';
+// import { MatchSchedule } from './utils';
+// import MongooseErrorParser from './utils/mongoosesaverr';
+import { RegisterWebsockets } from './ws/decorators';
+import { DeliveryServiceController } from './controllers/wsCotnroller';
 
 
 
@@ -33,18 +35,17 @@ initializeDb(db => {
     limit: '100kb'
   }));
   bootstrap.use(express.urlencoded({ extended: true }));
-  @RegisterControllers([UserController, TodoController, GameController], bootstrap)
+  // UserController, TodoController,
+  @RegisterControllers([ GameController], bootstrap)
   class App  {}
 
-
-  console.log(db.now())
+  // Register WebSocket controllers with decorator
+  @RegisterWebsockets([DeliveryServiceController])
+  class WebSocketServer {
+    // Logic to handle WebSocket server initialization and routing
+  }
 
 });
-
-
-// Register controllers decorated with @Controller() at application startup
-
-
 
 // WebSocket handling
 // io.on('connection', async (socket) => {
