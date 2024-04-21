@@ -1,18 +1,18 @@
+
+import { Server, Socket } from "socket.io";
 import { SubscribeMessage, WebSocketGateway } from "../ws/decorators";
 import { WebSocketController } from "../ws/webSocketController";
 
 
-@WebSocketGateway() // Decorate the class with WebSocketGateway
+@WebSocketGateway()
 export class DeliveryServiceController extends WebSocketController {
-  constructor(client: any) {
-    super(client);
-  }
 
-  // Method with decorator to subscribe to WebSocket event
-  @SubscribeMessage("eventname") // Decorate the method with SubscribeMessage
-  handleEvent(client: any, payload: any) {
+    constructor(client: Socket, websocketInstance: Server) {
+        super(client, websocketInstance);
+    }
 
-    this.sendMessage("msg", {message: "hellow world"})
-    // Logic to handle the event
-  }
+    @SubscribeMessage("eventname")
+    handleEvent(client: any, payload: any) {
+        this.sendMessage("msg", payload);
+    }
 }

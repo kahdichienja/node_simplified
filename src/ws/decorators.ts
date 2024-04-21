@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 export function WebSocketGateway() {
   return function (target: any) {
@@ -16,7 +16,6 @@ export function WebSocketGateway() {
           if (eventName && client) { // Check if client exists before subscribing
             client.on(eventName, (data: any) => {
               handler.call(instance, client, data);
-              console.log("sdkbvksd") 
             });
           }
         }
@@ -37,18 +36,42 @@ export function SubscribeMessage(eventName: string) {
     // Set metadata for the WebSocket event name
     Reflect.defineMetadata('websocket-event', eventName, target, propertyKey);
   };
-}
+} 
 
-export function RegisterWebsockets(controllerClasses: any[]) {
+ 
+
+export function RegisterWebsockets(websocketInstance: Server, controllerClasses: any[]) {
   return function (target: any) {
     // Logic to handle registration of WebSocket controllers
-    controllerClasses.forEach((controllerClass) => {
-      new controllerClass();
+    target.prototype.websocketInstance = websocketInstance; // Attach the WebSocket instance to the class prototype
+    console.log('WebSocket instance attached to class:', target.name);
 
-      console.log('==========WS Controllers===============');
-      console.info(controllerClass.prototype);
-      console.log('==========End WS Controllers===========');
-    });
+    // Initialize WebSocket controllers with the WebSocket instance
+    const controllerPromises = controllerClasses.map(
+      (controllerClass: any) => new Promise((resolve, reject) => {
+        websocketInstance.on('connection', (socket) => {
+          target.prototype.client = socket;
+          const cnt = new controllerClass(socket, websocketInstance);
+          console.log(`Socket connected: ${socket.id}`);
+          socket.on('disconnect', () => {
+            console.log(`WebSocket client disconnected: ${socket.id}`);
+          });
+          resolve(cnt); // Resolve the promise with the initialized controller
+        });
+      })
+    );
+
+    // Wait for all controller promises to resolve
+    Promise.all(controllerPromises)
+      .then((controllers) => {
+        console.log('WebSocket controllers registered:', controllers.map((c: any) => c.constructor.name));
+      })
+      .catch((error) => {
+        console.error('Error initializing WebSocket controllers:', error);
+      });
   } as any; // Return type is any to satisfy TypeScript
 }
+
+
+
 
