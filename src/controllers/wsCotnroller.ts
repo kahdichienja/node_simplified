@@ -28,12 +28,56 @@ export class DeliveryServiceController extends WebSocketController {
     const matchSchedules: MatchSchedule[] = [];
 
     matchSchedules.push(...[
-      { matchId: 13, team1: matches.data[0], team2: matches.data[1] },
-      { matchId: 14, team1: matches.data[2], team2: matches.data[3] },
-      { matchId: 15, team1: matches.data[4], team2: matches.data[5] },
-      { matchId: 16, team1: matches.data[6], team2: matches.data[7] },
-      { matchId: 17, team1: matches.data[8], team2: matches.data[9] },
-      { matchId: 18, team1: matches.data[10], team2: matches.data[11] },
+      {
+        matchId: 13,
+        team1: matches.data[0],
+        team2: matches.data[1],
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
+      {
+        matchId: 14, team1: matches.data[2], team2: matches.data[3],
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
+      {
+        matchId: 15, team1: matches.data[4], team2: matches.data[5], 
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
+      {
+        matchId: 16, team1: matches.data[6], team2: matches.data[7], 
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
+      {
+        matchId: 17, team1: matches.data[8], team2: matches.data[9], 
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
+      {
+        matchId: 18, team1: matches.data[10], team2: matches.data[11], 
+        odds: {
+          team1: 2.0, // Sample odds for team 1
+          team2: 2.8, // Sample odds for team 2
+          draw: 3.0   // Sample odds for draw
+        }
+      },
     ])
 
     return matchSchedules;

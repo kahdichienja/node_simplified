@@ -1,9 +1,7 @@
 
-import { Server, Socket } from "socket.io";
+import { Socket } from "socket.io";
 import { SubscribeMessage, WebSocketGateway } from "../ws/decorators";
 import { WebSocketController } from "../ws/webSocketController";
-import { GameService } from "../service/gameService";
-import { MatchSchedule } from "../utils";
 
 
 @WebSocketGateway()

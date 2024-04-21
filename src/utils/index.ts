@@ -11,6 +11,11 @@ export class MatchSchedule {
   matchId!: number;
   team1!: Team;
   team2!: Team;
+  odds!: {
+    team1: number;
+    team2: number;
+    draw: number;
+  };
 }
 export class Match {
   team1!: Team;
@@ -21,6 +26,8 @@ export class UserPredictions {
   teamIdToLose!:number;
   teamIdToWon!:number;
   matchId!:number;
+  betAmount!: number;
+  selectedOdd!: number;
 
 }
 export class TournamentPredictionsOutcome {
@@ -33,6 +40,11 @@ export class TournamentPredictionsOutcome {
   firstTeam!: Team;
   secondTeam!: Team;
   remainingResults!: DesiredResult;
+  odds!: {
+    team1: number;
+    team2: number;
+    draw: number;
+  };
 
 }
 export class SimulatedMatchOutcome {

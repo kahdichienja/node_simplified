@@ -72,7 +72,14 @@ class GameEngine {
 
             const matchResult = this.simulateMatch({ team1, team2 }, desiredResults, teamScores);
 
-            results.push({matchId: match.matchId,...matchResult});
+            results.push({
+                matchId: match.matchId, ...matchResult,
+                odds: {
+                    team1: match.odds.team1,
+                    team2: match.odds.team2,
+                    draw: match.odds.draw
+                }
+            });
 
             // Update the remainingResults for the next match
             desiredResults = matchResult.remainingResults;
@@ -112,6 +119,53 @@ class GameEngine {
             return comparison;
         });
     }
+
+    static calculateBettingResults(userPredictions: UserPredictions[], results: TournamentPredictionsOutcome[]): any[] {
+        const bettingResults: any[] = [];
+    
+        userPredictions.forEach(prediction => {
+          const result = results.find(matchResult => matchResult.matchId === prediction.matchId);
+    
+          let betAmount = 0;
+          let odd = 0;
+          let winAmount = 0;
+          let isWin = false;
+    
+          // Find the corresponding match result for the prediction
+          if (result) {
+            if (prediction.isDraw && result.isDraw) {
+              // If the prediction is for a draw and the match result is a draw
+              betAmount = prediction.betAmount;
+              odd = result.odds.draw;
+              isWin = true;
+              winAmount = betAmount * odd;
+            } else if (prediction.teamIdToWon !== 0 && prediction.teamIdToWon === result.winner?.id) {
+              // If the prediction is for a team to win and it matches the actual winner
+              betAmount = prediction.betAmount;
+              odd = result.odds.team1; // Assuming team1Odds are for the team to win
+              isWin = true;
+              winAmount = betAmount * odd;
+            } else if (prediction.teamIdToLose !== 0 && prediction.teamIdToLose === result.loser?.id) {
+              // If the prediction is for a team to lose and it matches the actual loser
+              betAmount = prediction.betAmount;
+              odd = result.odds.team2; // Assuming team2Odds are for the team to lose
+              isWin = true;
+              winAmount = betAmount * odd;
+            }
+          }
+    
+          // Push the betting result to the array
+          bettingResults.push({
+            matchId: prediction.matchId,
+            betAmount,
+            odd,
+            winAmount,
+            isWin
+          });
+        });
+    
+        return bettingResults;
+      }
 
 }
 
