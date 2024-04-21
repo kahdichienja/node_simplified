@@ -43,6 +43,8 @@ export class DeliveryServiceController extends WebSocketController {
   @SubscribeMessage("getmatch")
   async matchday(client: any, payload: any) {
 
+    console.log(`getmatch for :${client.id}`);
+
     setInterval(async () => {
       const m = await this.emitMatchday();
       this.sendMessage("matchday", m)

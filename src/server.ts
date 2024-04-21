@@ -7,6 +7,7 @@ import { GameController } from './controllers/gameController';
 import initializeDb from './db';
 import { RegisterWebsockets } from './ws/decorators';
 import { DeliveryServiceController } from './controllers/wsCotnroller';
+import { WSController } from './controllers/wsCotnroller2';
 
 
 
@@ -35,7 +36,7 @@ initializeDb(db => {
   class App  {}
 
   // Register WebSocket controllers with decorator
-  @RegisterWebsockets(io, [DeliveryServiceController])
+  @RegisterWebsockets(io, [DeliveryServiceController, WSController])
   class WebSocketServer {}
 
 });
