@@ -11,7 +11,7 @@ import { WSController } from './controllers/wsCotnroller2';
 
 
 
-const port = 3001;
+const port = process.env.SERVER_PORT;
 
 const bootstrap = express();
 
@@ -19,7 +19,7 @@ const httpServer = createServer(bootstrap);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3030",
     methods: ["GET", "POST"],
   },
 });

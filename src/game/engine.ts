@@ -1,7 +1,7 @@
 import { DesiredResult } from "../model/desiredresult";
 import { MatchSchedule, Match, TournamentPredictionsOutcome, SimulatedMatchOutcome, UserPredictions } from "../utils";
 
-const NUM_TEAMS = 12;
+const NUM_TEAMS = 20;
 class GameEngine {
 
     // Define a function to simulate a single match

@@ -15,6 +15,12 @@ export class MatchSchedule {
     team1: number;
     team2: number;
     draw: number;
+    ygg: number;
+    ngg: number;
+    over15: number;
+    under15: number;
+    over35: number;
+    under35: number;
   };
 }
 export class Match {
@@ -22,19 +28,19 @@ export class Match {
   team2!: Team;
 }
 export class UserPredictions {
-  isDraw!:boolean;
-  teamIdToLose!:number;
-  teamIdToWon!:number;
-  matchId!:number;
+  isDraw!: boolean;
+  teamIdToLose!: number;
+  teamIdToWon!: number;
+  matchId!: number;
   betAmount!: number;
   selectedOdd!: number;
 
 }
 export class TournamentPredictionsOutcome {
-  winner!: Team|null;
+  winner!: Team | null;
   winnerGoals!: number;
   matchId!: number;
-  loser!: Team|null;
+  loser!: Team | null;
   loserGoals!: number;
   isDraw!: boolean;
   firstTeam!: Team;
@@ -48,9 +54,9 @@ export class TournamentPredictionsOutcome {
 
 }
 export class SimulatedMatchOutcome {
-  winner!: Team|null;
+  winner!: Team | null;
   winnerGoals!: number;
-  loser!: Team|null;
+  loser!: Team | null;
   loserGoals!: number;
   isDraw!: boolean;
   firstTeam!: Team;
