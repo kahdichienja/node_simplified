@@ -163,25 +163,55 @@ const binarySearch = (array: any[], target: any) => {
 const binarySearchWords = (array: any[], target: any) => {
   array.sort()
 
-  let left =0, right = array.length -1;
+  let left = 0, right = array.length - 1;
 
-  while (left<=right) {
-    let middleIndex = Math.floor((right+left)/2)
+  while (left <= right) {
+    let middleIndex = Math.floor((right + left) / 2)
     let comparator = target.localeCompare(array[middleIndex])
 
     if (comparator === 0) {
       return middleIndex
-    }else if (comparator < 0) {
-      right = middleIndex-1
+    } else if (comparator < 0) {
+      right = middleIndex - 1
     } else {
-      left = middleIndex+1
+      left = middleIndex + 1
     }
-    
+
   }
 
   return -1;
 }
 
-const r = binarySearchWords(["quit", "banana", "oragnegs", "home", "studies"], "banana")
+function search(array: any[], target: any, left: number, right: number) {
+
+  if (left > right) {
+    return -1;
+  }
+  let middleIndex = Math.floor((right + left) / 2)
+
+  if (target === array[middleIndex]) {
+    return middleIndex;
+  }
+  /**
+   * the recursion part
+   */
+
+  if (target < array[middleIndex]) {
+    return search(array, target, left, middleIndex - 1)
+  } else {
+    return search(array, target, middleIndex + 1, right)
+  }
+
+}
+
+const recursiveBinarySearch = (array: any[], target: any) => {
+
+  array.sort()
+
+  return search(array, target, 0, array.length - 1)
+}
+
+
+const r = recursiveBinarySearch(["quit", "banana", "oragnegs", "home", "studies"], "studies")
 
 console.log(r);
