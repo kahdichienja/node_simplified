@@ -222,13 +222,13 @@ export class DeliveryServiceController extends WebSocketController {
     const newArray = result.data?.results.map(item => ({
       matchId: item.matchId,
       team1: {
-        _id: item.winner === item.firstTeam ? item.winner.id : item.loser?.id, 
+        _id: item.winner === item.firstTeam ? item.winner.id : item.loser?.id,
         name: item.firstTeam.name,
         flagUrl: item.firstTeam.flagUrl,
         score: item.isDraw ? 0 : item.winner === item.firstTeam ? item.winnerGoals : item.loserGoals
       },
       team2: {
-        _id: item.winner === item.secondTeam ? item.winner.id : item.loser?.id, 
+        _id: item.winner === item.secondTeam ? item.winner.id : item.loser?.id,
         name: item.secondTeam.name,
         flagUrl: item.secondTeam.flagUrl,
         score: item.isDraw ? 0 : item.winner === item.secondTeam ? item.winnerGoals : item.loserGoals
@@ -243,14 +243,25 @@ export class DeliveryServiceController extends WebSocketController {
     // console.log('====================================');
 
     const data = {
-      match: this.shuffleGames(m),
+      match: this.shuffleGames(m),//next match schedule
       time: t.shift() // time for next match
     }
 
 
-    this.sendMessage("matchday",{ match: data, live: newArray})
+    this.sendMessage("matchday", { match: data, live: newArray })
 
-    // setInterval(async () => {
-    // }, 10000);
+    // const targetTimestamp = new Date(data.time as string).getTime();
+
+
+    // setInterval(() => {
+    //   const currentTimestamp = Date.now();
+    //   if (currentTimestamp >= targetTimestamp) {
+    //     console.log(targetTimestamp);
+    //     this.sendMessage("matchday", { match: data, live: newArray })
+    //     console.log('====================================');
+    //     // clearInterval(interval); // Stop the interval once the target timestamp is reached
+    //   }
+    // }, 1000); // Check every second
+
   }
 }

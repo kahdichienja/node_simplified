@@ -123,52 +123,65 @@
 //   race.simulateRace();
 // const socket = io.connect("http://localhost:3001");
 
-const existingArray = [
-    {
-      matchId: 20,
-      winner: {
-        _id: ('6626b74527dc8ebbbd276871'),
-        name: 'Leads',
-        flagUrl: 'leads',
-        __v: 0
-      },
-      winnerGoals: 7,
-      loser: {
-        _id: ('6626b77727dc8ebbbd276877'),
-        name: 'Wolves',
-        flagUrl: 'wolves',
-        __v: 0
-      },
-      loserGoals: 1,
-      isDraw: false,
-      firstTeam: {
-        _id: ('6626b74527dc8ebbbd276871'),
-        name: 'Leads',
-        flagUrl: 'leads',
-        __v: 0
-      },
-      secondTeam: {
-        _id: ('6626b77727dc8ebbbd276877'),
-        name: 'Wolves',
-        flagUrl: 'wolves',
-        __v: 0
-      },
-      remainingResults: {
-        _id: ('6622023a494741b25421da7d'),
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        active: true,
-        __v: 0
-      },
-      odds: { team1: 1.37, team2: 1.05, draw: 1.01 }
+const linearSearch = (arr: any[], target: any) => {
+
+  for (let index = 0; index < arr.length; index++) {
+    if (arr[index] === target) {
+      return index;
+    };
+  }
+  return -1
+}
+
+const binarySearch = (array: any[], target: any) => {
+
+  // Sort the array before performing binary search
+  array.sort((a, b) => a - b);
+
+  let leftIndex = 0, rightIndex = array.length - 1;
+
+  while (leftIndex <= rightIndex) {
+    let middleIndex = Math.floor((leftIndex + rightIndex) / 2)
+
+    if (target === array[middleIndex]) {
+      return middleIndex;
     }
-  ];
-  
-  const newArray = existingArray.map(item => ({
-    matchId: item.matchId,
-    team1: { ...item.firstTeam, score: item.winnerGoals }, // Include score for team1
-    team2: { ...item.secondTeam, score: item.loserGoals } // Include score for team2
-  }));
-  
-  console.log(newArray);
+
+    if (target < array[middleIndex]) {
+      rightIndex = middleIndex - 1
+
+    } else {
+      leftIndex = middleIndex + 1
+    }
+
+  }
+
+  return -1;
+
+}
+
+const binarySearchWords = (array: any[], target: any) => {
+  array.sort()
+
+  let left =0, right = array.length -1;
+
+  while (left<=right) {
+    let middleIndex = Math.floor((right+left)/2)
+    let comparator = target.localeCompare(array[middleIndex])
+
+    if (comparator === 0) {
+      return middleIndex
+    }else if (comparator < 0) {
+      right = middleIndex-1
+    } else {
+      left = middleIndex+1
+    }
+    
+  }
+
+  return -1;
+}
+
+const r = binarySearchWords(["quit", "banana", "oragnegs", "home", "studies"], "banana")
+
+console.log(r);
