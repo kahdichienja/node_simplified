@@ -183,7 +183,7 @@ export class DeliveryServiceController extends WebSocketController {
     const timestamps: string[] = [];
     const currentTime = new Date();
 
-    currentTime.setMinutes(currentTime.getMinutes() + 3); // Increment current time by 3 minutes
+    currentTime.setMinutes(currentTime.getMinutes() + 2); // Increment current time by 3 minutes
 
     timestamps.push(currentTime.toISOString());
 
@@ -215,6 +215,7 @@ export class DeliveryServiceController extends WebSocketController {
 
 
     const m = await this.emitMatchday();
+    const m2 = await this.emitMatchday();
     const t = this.generateTimestamps();
 
     const result = await gameService.bet(m, [])
@@ -243,7 +244,7 @@ export class DeliveryServiceController extends WebSocketController {
     // console.log('====================================');
 
     const data = {
-      match: this.shuffleGames(m),//next match schedule
+      match: this.shuffleGames(m2),//next match schedule
       time: t.shift() // time for next match
     }
 
