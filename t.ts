@@ -212,6 +212,30 @@ const recursiveBinarySearch = (array: any[], target: any) => {
 }
 
 
-const r = recursiveBinarySearch(["quit", "banana", "oragnegs", "home", "studies"], "studies")
+const rbs = recursiveBinarySearch(["quit", "banana", "oragnegs", "home", "studies"], "studies")
+
+
+
+const quickSort = (arr: any[]): any[] => {
+  if(arr.length<2) return arr
+
+  let pivot = arr[arr.length-1]
+
+  let right: any[] = [];
+  let left: any[] = [];
+
+  for (let index = 0; index < arr.length-1; index++) {
+    const element = arr[index];
+      if (element<pivot) {
+        left.push(element);
+      } else {
+        right.push(element)
+      }
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)]
+}
+
+const r = quickSort([2, -3, 10, 17, -1])
 
 console.log(r);
